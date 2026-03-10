@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Strategy Framework</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0B0F1A;
+    --surface: #111827;
+    --border: #1F2937;
+    --text-primary: #F9FAFB;
+    --text-secondary: #9CA3AF;
+    --text-muted: #4B5563;
+    --c1: #2DD4BF;
+    --c2: #818CF8;
+    --c3: #F472B6;
+    --c4: #FB923C;
+    --c5: #34D399;
+    --c6: #FBBF24;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: 'Lora', Georgia, serif;
+    color: var(--text-primary);
+    padding: 56px 24px 72px;
+    min-height: 100vh;
+  }
+
+  .wrapper {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .header {
+    margin-bottom: 60px;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(30px, 6vw, 48px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--text-primary);
+    margin-bottom: 18px;
+  }
+
+  .header h1 em {
+    font-style: italic;
+    color: var(--c1);
+  }
+
+  .header p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.75;
+    max-width: 480px;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+  }
+
+  .step {
+    display: flex;
+    gap: 0;
+    position: relative;
+  }
+
+  /* Left column: number node + connector */
+  .step-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60px;
+    flex-shrink: 0;
+  }
+
+  .node {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px solid var(--node-color);
+    background: color-mix(in srgb, var(--node-color) 12%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .node span {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--node-color);
+  }
+
+  .connector {
+    width: 2px;
+    flex-grow: 1;
+    min-height: 32px;
+    background: linear-gradient(to bottom, var(--from-color), var(--to-color));
+    margin: 5px 0;
+    opacity: 0.35;
+  }
+
+  /* Right column: content */
+  .step-content {
+    flex: 1;
+    padding-left: 24px;
+    padding-bottom: 44px;
+    padding-top: 6px;
+  }
+
+  .step:last-child .step-content {
+    padding-bottom: 0;
+  }
+
+  .step-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--node-color);
+    margin-bottom: 5px;
+  }
+
+  .step-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(17px, 3vw, 22px);
+    font-weight: 400;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    max-width: 500px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    padding: 4px 11px;
+    border-radius: 20px;
+    border: 1px solid color-mix(in srgb, var(--node-color) 35%, transparent);
+    color: var(--node-color);
+    opacity: 0.9;
+  }
+
+  /* Divider */
+  .footer-rule {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin-top: 56px;
+    margin-bottom: 20px;
+  }
+
+  .footer-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <p class="eyebrow">Community AI Strategy Framework</p>
+    <h1>Designing Your<br><em>AI Strategy</em></h1>
+    <p>A six-step framework for community-focused organisations approaching AI thoughtfully, responsibly, and on their own terms.</p>
+  </div>
+
+  <div class="timeline">
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="node" style="--node-color: #2DD4BF">
+          <span>01</span>
+        </div>
+        <div class="connector" style="--from-color: #2DD4BF; --to-color: #818CF8"></div>
+      </div>
+      <div class="step-content">
+        <p class="step-label" style="--node-color: #2DD4BF">Start here</p>
+        <h2 class="step-title">Readiness &amp; Impact Assessment</h2>
+        <p class="step-desc">Identify and scope potential use cases — but before selecting an AI-based solution, always ask whether an analogue approach could achieve the same outcome within your timelines and resource constraints. If it can, that should be the default choice. Where AI is the right path, set a clear end goal and concrete review dates.</p>
+        <div class="tags">
+          <span class="tag" style="--node-color: #2DD4BF">Use case scoping</span>
+          <span class="tag" style="--node-color: #2DD4BF">Analogue-first principle</span>
+          <span class="tag" style="--node-color: #2DD4BF">Goal setting</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="node" style="--node-color: #818CF8">
+          <span>02</span>
+        </div>
+        <div class="connector" style="--from-color: #818CF8; --to-color: #F472B6"></div>
+      </div>
+      <div class="step-content">
+        <p class="step-label" style="--node-color: #818CF8">Understand the tradeoffs</p>
+        <h2 class="step-title">AI Risk Assessment</h2>
+        <p class="step-desc">Develop a thorough understanding of the risks, limitations, and tradeoffs associated with using AI in each identified use case. This assessment should inform every subsequent decision in the process — it is the foundation everything else rests on.</p>
+        <div class="tags">
+          <span class="tag" style="--node-color: #818CF8">Risk mapping</span>
+          <span class="tag" style="--node-color: #818CF8">Limitations analysis</span>
+          <span class="tag" style="--node-color: #818CF8">Tradeoff review</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="node" style="--node-color: #F472B6">
+          <span>03</span>
+        </div>
+        <div class="connector" style="--from-color: #F472B6; --to-color: #FB923C"></div>
+      </div>
+      <div class="step-content">
+        <p class="step-label" style="--node-color: #F472B6">Choose your path</p>
+        <h2 class="step-title">Buy vs. Build vs. Open Source</h2>
+        <p class="step-desc">Assess your solution options carefully. Building in-house keeps ownership and control close to the organisation. Open-source is often equally viable given typical resource constraints. Proprietary, bought-in solutions should generally be the last resort — not the first instinct.</p>
+        <div class="tags">
+          <span class="tag" style="--node-color: #F472B6">In-house build</span>
+          <span class="tag" style="--node-color: #F472B6">Open source</span>
+          <span class="tag" style="--node-color: #F472B6">Procurement</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="node" style="--node-color: #FB923C">
+          <span>04</span>
+        </div>
+        <div class="connector" style="--from-color: #FB923C; --to-color: #34D399"></div>
+      </div>
+      <div class="step-content">
+        <p class="step-label" style="--node-color: #FB923C">Define the detail</p>
+        <h2 class="step-title">Solution Design &amp; Documentation</h2>
+        <p class="step-desc">Finalise the solution design with detailed documentation of all data and model resources being used. Formats such as data cards and model cards are recommended to ensure transparency and accountability are built into the foundation of your deployment.</p>
+        <div class="tags">
+          <span class="tag" style="--node-color: #FB923C">Data cards</span>
+          <span class="tag" style="--node-color: #FB923C">Model cards</span>
+          <span class="tag" style="--node-color: #FB923C">Transparency</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="node" style="--node-color: #34D399">
+          <span>05</span>
+        </div>
+        <div class="connector" style="--from-color: #34D399; --to-color: #FBBF24"></div>
+      </div>
+      <div class="step-content">
+        <p class="step-label" style="--node-color: #34D399">Build with oversight</p>
+        <h2 class="step-title">Development &amp; Deployment Lifecycle</h2>
+        <p class="step-desc">Design a development and deployment lifecycle with as much human observability built in as feasible — so the system's behaviour can be monitored, questioned, and course-corrected at every stage. Oversight is not a luxury; it is a structural requirement.</p>
+        <div class="tags">
+          <span class="tag" style="--node-color: #34D399">Human oversight</span>
+          <span class="tag" style="--node-color: #34D399">Monitoring</span>
+          <span class="tag" style="--node-color: #34D399">Course-correction</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6 -->
+    <div class="step">
+      <div class="step-left">
+        <div class="node" style="--node-color: #FBBF24">
+          <span>06</span>
+        </div>
+      </div>
+      <div class="step-content">
+        <p class="step-label" style="--node-color: #FBBF24">Plan the exit</p>
+        <h2 class="step-title">Offboarding &amp; Transition Assessment</h2>
+        <p class="step-desc">At the close of the defined lifecycle, evaluate whether automation achieved its intended goals and plan the appropriate next step — ideally a transition to a community-owned technology solution that places lasting ownership in the hands of the people the organisation was always meant to serve.</p>
+        <div class="tags">
+          <span class="tag" style="--node-color: #FBBF24">Impact review</span>
+          <span class="tag" style="--node-color: #FBBF24">Exit planning</span>
+          <span class="tag" style="--node-color: #FBBF24">Community ownership</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /timeline -->
+
+  <hr class="footer-rule">
+  <p class="footer-note">Community AI Strategy Framework &mdash; 6 Steps</p>
+
+</div>
+</body>
+</html>
